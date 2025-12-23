@@ -6,6 +6,7 @@ import time
 from datetime import datetime
 from typing import List, Dict
 import urllib3
+import os
 
 # Desabilita warnings de SSL não verificado
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -160,5 +161,7 @@ if __name__ == '__main__':
     fetch_data_thread.start()
     
     print("Servidor Flask iniciando...")
-    app.run(debug=True, host='0.0.0.0', port=4001)
+    # Em produção, debug deve ser False
+    debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
+    app.run(debug=debug_mode, host='0.0.0.0', port=4001)
 

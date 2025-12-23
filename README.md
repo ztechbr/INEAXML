@@ -34,7 +34,7 @@ python app.py
 
 Acesse no navegador:
 ```
-http://localhost:4000
+http://localhost:4001
 ```
 
 ## Estrutura do Projeto
@@ -43,10 +43,55 @@ http://localhost:4000
 INEAXML/
 ├── app.py              # Aplicação Flask principal
 ├── requirements.txt    # Dependências Python
+├── Dockerfile          # Configuração Docker
+├── docker-compose.yml  # Compose para orquestração
+├── .dockerignore       # Arquivos ignorados no build
 ├── README.md          # Este arquivo
 └── templates/
     └── index.html     # Template HTML com Tailwind CSS
 ```
+
+## Deploy com Docker
+
+### Usando Docker Compose
+
+1. Construa e inicie o container:
+```bash
+docker-compose up -d --build
+```
+
+2. Acesse a aplicação:
+```
+http://localhost:4001
+```
+
+3. Para parar:
+```bash
+docker-compose down
+```
+
+### Usando Docker diretamente
+
+1. Construa a imagem:
+```bash
+docker build -t inea-xml .
+```
+
+2. Execute o container:
+```bash
+docker run -d -p 4001:4001 --name inea-xml-app inea-xml
+```
+
+## Deploy no Easypanel
+
+1. Conecte seu repositório Git ao Easypanel
+2. Selecione o tipo de aplicação: **Docker**
+3. Configure:
+   - **Porta**: `4001`
+   - **Build Command**: (deixe vazio, usa o Dockerfile)
+   - **Start Command**: (deixe vazio, usa o CMD do Dockerfile)
+4. O Easypanel detectará automaticamente o `Dockerfile` e `docker-compose.yml`
+5. Faça o deploy!
 
 ## Funcionalidades
 
@@ -70,7 +115,7 @@ Use o dropdown no topo da página para filtrar as estações por município. Voc
 
 A aplicação também fornece uma API JSON em:
 ```
-http://localhost:4000/api/data
+http://localhost:4001/api/data
 ```
 
 Parâmetros opcionais:
@@ -78,7 +123,7 @@ Parâmetros opcionais:
 
 Exemplo:
 ```
-http://localhost:4000/api/data?cidade=Itaperuna
+http://localhost:4001/api/data?cidade=Itaperuna
 ```
 
 ## Tecnologias Utilizadas

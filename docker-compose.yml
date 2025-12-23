@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  inea-xml:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: inea-xml-app
+    ports:
+      - "4001:4001"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - FLASK_APP=app.py
+      - FLASK_DEBUG=False
+    restart: unless-stopped
+    networks:
+      - inea-network
+
+networks:
+  inea-network:
+    driver: bridge
+
